@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ru"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/extras/spring-security6">
+
+<head th:replace="~{fragments/head :: head}"></head>
+
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<main class="container">
+    <h2>Пользователи</h2>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Имя пользователя</th>
+            <th>Email</th>
+            <th>Роли</th>
+            <th>Действия</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="u : ${users}">
+            <td th:text="${u.id}"></td>
+            <td th:text="${u.username}"></td>
+            <td th:text="${u.email}"></td>
+
+            <!-- Роли (без падений, корректно работает для Set<Role>) -->
+            <td>
+                <span th:each="role, iter : ${u.roles}">
+                    <span th:text="${role.name}"></span>
+                    <span th:if="${!iter.last}">, </span>
+                </span>
+            </td>
+
+            <!-- Кнопка Сделать админом -->
+            <td>
+                <form th:action="@{'/admin/makeAdmin/' + ${u.id}}" method="post">
+
+                    <!-- Если НЕТ роли ROLE_ADMIN — показывать кнопку -->
+                    <button type="submit"
+                            class="btn btn-sm btn-secondary"
+                            th:if="${u.roles.?[name == 'ROLE_ADMIN'].isEmpty()}">
+                        Сделать админом
+                    </button>
+
+                    <!-- Если админ — показывать текст -->
+                    <span th:if="${!u.roles.?[name == 'ROLE_ADMIN'].isEmpty()}">
+                        Администратор
+                    </span>
+
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+
+</body>
+</html>

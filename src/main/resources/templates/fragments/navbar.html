@@ -1,0 +1,23 @@
+<nav th:fragment="navbar"
+     xmlns:th="http://www.thymeleaf.org"
+     xmlns:sec="https://www.thymeleaf.org/extras/spring-security6">
+
+<a href="/">Главная</a>
+    <a href="/blueprints">Чертежи</a>
+    <a href="/guides">Гайды</a>
+
+    <span sec:authorize="isAnonymous()">
+        <a href="/auth/login">Войти</a>
+        <a href="/auth/register">Регистрация</a>
+    </span>
+
+    <span sec:authorize="isAuthenticated()">
+        <span th:text="${#authentication.name}"></span>
+        <a href="/logout">Выйти</a>
+    </span>
+
+    <span sec:authorize="hasRole('ADMIN')">
+        <a href="/admin/panel">Админ</a>
+    </span>
+
+</nav>

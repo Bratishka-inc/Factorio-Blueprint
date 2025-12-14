@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ru"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/extras/spring-security6">
+
+<head th:replace="~{fragments/head :: head}"></head>
+
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<main class="container">
+
+    <!-- Заголовок -->
+    <h1 th:text="${blueprint.name}"></h1>
+
+    <!-- Кнопки редактирования -->
+    <div class="actions">
+
+        <!-- Админ может всё -->
+        <div sec:authorize="hasRole('ADMIN')">
+            <a th:href="@{|/blueprints/${blueprint.id}/edit|}"
+               class="btn btn-primary">
+                Редактировать (админ)
+            </a>
+        </div>
+
+        <!-- Владелец (если не админ) -->
+        <div sec:authorize="isAuthenticated()" th:if="${isOwner}">
+            <a th:href="@{|/blueprints/${blueprint.id}/edit|}"
+               class="btn btn-primary">
+                Редактировать
+            </a>
+        </div>
+
+    </div>
+
+    <!-- Описание -->
+    <section class="mt-20">
+        <p><strong>Описание:</strong></p>
+        <p th:text="${blueprint.description != null ? blueprint.description : 'Описание отсутствует'}"></p>
+    </section>
+
+    <!-- Автор -->
+    <section class="mt-20">
+        <p>
+            <strong>Автор:</strong>
+
+            <span th:if="${blueprint.author == null}">
+                не указан
+            </span>
+
+            <a th:if="${blueprint.author != null}"
+               th:text="${blueprint.author.username}"
+               th:href="@{'/profile?user=' + ${blueprint.author.id}}"></a>
+        </p>
+    </section>
+
+    <!-- КНОПКА "НАЗАД" -->
+    <a href="/blueprints" class="secondary mt-20">← Назад к списку чертежей</a>
+
+</main>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+
+</body>
+</html>

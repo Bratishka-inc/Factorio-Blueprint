@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ru"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/extras/spring-security6">
+
+<head th:replace="~{fragments/head :: head}"></head>
+
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<main class="container">
+
+    <h1>О проекте Factorio Blueprint Hub</h1>
+
+    <p>
+        Этот сервис позволяет загружать, хранить и просматривать чертежи Factorio,
+        а также читать гайды, созданные участниками сообщества.
+    </p>
+
+    <p>
+        В проекте реализованы:
+    </p>
+
+    <ul>
+        <li>Чертежи — добавление, редактирование, поиск, пагинация</li>
+        <li>Гайды — создание, управление, лайки</li>
+        <li>Профили пользователей</li>
+        <li>Админ-панель с управлением ролями</li>
+        <li>Авторизация и регистрация</li>
+    </ul>
+
+    <a href="/" class="secondary">← На главную</a>
+
+</main>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+
+</body>
+</html>

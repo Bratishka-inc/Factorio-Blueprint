@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ru"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/extras/spring-security6">
+
+<head th:replace="~{fragments/head :: head}"></head>
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<main class="container">
+
+    <h1>Список гайдов</h1>
+
+    <form method="get" action="/guides">
+        <input type="text"
+               name="search"
+               placeholder="Поиск по названию..."
+               th:value="${search}">
+        <button type="submit">Искать</button>
+    </form>
+
+    <div sec:authorize="isAuthenticated()">
+        <a href="/guides/new" class="btn btn-primary">Добавить гайд</a>
+    </div>
+
+    <div th:if="${#lists.isEmpty(guides)}">
+        <p>Пока нет ни одного гайда. Будь первым, кто его добавит!</p>
+    </div>
+
+    <div class="grid" th:each="g : ${guides}">
+        <article class="card">
+            <h3 th:text="${g.title}"></h3>
+            <p th:text="${g.description}"></p>
+
+            <p>
+                <strong>Категория:</strong>
+                <span th:text="${g.category}"></span>
+            </p>
+
+            <p>
+                <strong>Автор:</strong>
+                <span th:if="${g.author == null}">не указан</span>
+                <a th:if="${g.author != null}"
+                   th:text="${g.author.username}"
+                   th:href="@{/profile(user=${g.author.id})}">
+                </a>
+            </p>
+
+            <a th:href="@{/guides/{id}(id=${g.id})}">Открыть</a>
+        </article>
+    </div>
+
+    <div th:if="${totalPages > 1}">
+        <ul>
+            <li th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
+                <a th:href="@{|/guides?page=${i}|}"
+                   th:text="${i + 1}">
+                </a>
+            </li>
+        </ul>
+    </div>
+
+</main>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+
+</body>
+</html>

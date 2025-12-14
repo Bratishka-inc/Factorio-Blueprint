@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ru"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/extras/spring-security6">
+
+<head th:replace="~{fragments/head :: head}"></head>
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<main class="container">
+    <h1 th:text="${guide.title}"></h1>
+
+    <p>
+        <strong>Категория:</strong>
+        <span th:text="${guide.category}"></span>
+    </p>
+
+    <!-- Кнопки только для залогиненных -->
+    <div sec:authorize="isAuthenticated()">
+        <a th:href="@{|/guides/${guide.id}/edit|}" class="btn">Редактировать</a>
+
+        <form th:action="@{|/guides/${guide.id}/delete|}"
+              method="post"
+              style="display:inline">
+            <button type="submit" class="btn btn-danger">
+                Удалить
+            </button>
+        </form>
+    </div>
+
+    <p>
+        <strong>Автор:</strong>
+        <span th:if="${guide.author == null}">не указан</span>
+        <a th:if="${guide.author != null}"
+           th:text="${guide.author.username}"
+           th:href="@{'/profile?user=' + ${guide.author.id}}">
+        </a>
+    </p>
+
+    <p><strong>Описание:</strong></p>
+    <p th:text="${guide.description}"></p>
+
+    <!-- ЛАЙКИ -->
+    <div class="likes-block" style="margin-top:20px;">
+
+        <p>
+            <strong>Лайков:</strong>
+            <span th:text="${likeCount}">0</span>
+        </p>
+
+        <!-- Только для авторизованных -->
+        <div sec:authorize="isAuthenticated()">
+
+            <!-- Если пользователь уже лайкнул -->
+            <form th:if="${userLiked}"
+                  th:action="@{|/guides/${guide.id}/unlike|}"
+                  method="post"
+                  style="display:inline;">
+                <button type="submit" class="btn btn-warning">Убрать лайк 💔</button>
+            </form>
+
+            <!-- Если не лайкнул -->
+            <form th:if="${!userLiked}"
+                  th:action="@{|/guides/${guide.id}/like|}"
+                  method="post"
+                  style="display:inline;">
+                <button type="submit" class="btn btn-primary">Лайкнуть ❤️</button>
+            </form>
+
+        </div>
+
+    </div>
+
+    <a href="/guides" class="secondary">← Назад к списку гайдов</a>
+</main>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+
+</body>
+</html>

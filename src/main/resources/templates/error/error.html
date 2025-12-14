@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/extras/spring-security6">
+
+<head th:replace="~{fragments/head :: head}"></head>
+
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<main class="container">
+
+    <article class="card" style="margin-top: 2rem; padding: 1.5rem;">
+
+        <h1 th:text="${errorTitle != null ? errorTitle : 'Ошибка'}">Ошибка</h1>
+
+        <p th:text="${errorMessage != null ? errorMessage : 'Произошла неизвестная ошибка.'}">
+            Произошла ошибка.
+        </p>
+
+        <a href="/" class="btn btn-primary">На главную</a>
+
+    </article>
+
+</main>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ru"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/extras/spring-security6">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Профиль пользователя</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<h1>Профиль пользователя</h1>
+
+<div class="profile-info">
+    <p><strong>Имя пользователя:</strong> <span th:text="${user.username}"></span></p>
+    <p><strong>Email:</strong> <span th:text="${user.email}"></span></p>
+</div>
+
+<hr>
+
+<h2>Мои чертежи</h2>
+
+<div th:if="${#lists.isEmpty(blueprints)}">
+    <p>У вас пока нет чертежей.</p>
+</div>
+
+<ul th:if="${!#lists.isEmpty(blueprints)}">
+    <li th:each="bp : ${blueprints}">
+        <a th:href="@{'/blueprints/' + ${bp.id}}" th:text="${bp.name}"></a>
+    </li>
+</ul>
+
+<hr>
+
+<h2>Мои гайды</h2>
+
+<div th:if="${#lists.isEmpty(guides)}">
+    <p>У вас пока нет гайдов.</p>
+</div>
+
+<ul th:if="${!#lists.isEmpty(guides)}">
+    <li th:each="g : ${guides}">
+        <a th:href="@{'/guides/' + ${g.id}}" th:text="${g.title}"></a>
+    </li>
+</ul>
+
+</body>
+</html>
