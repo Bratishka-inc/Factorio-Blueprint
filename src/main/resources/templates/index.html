@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ru"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/extras/spring-security6">
+
+<head th:replace="~{fragments/head :: head}"></head>
+
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<main class="container">
+
+    <h1>Factorio Hub</h1>
+    <p>Добро пожаловать! Это центральная страница проекта.</p>
+
+    <nav style="margin-top: 1rem;">
+        <ul>
+            <li><a th:href="@{/guides}">📘 Все гайды</a></li>
+            <li><a th:href="@{/blueprints}">📐 Все чертежи</a></li>
+        </ul>
+    </nav>
+
+    <section style="margin-top: 30px;">
+        <h2>🔥 Топ 10 самых популярных гайдов</h2>
+
+        <div th:if="${#lists.isEmpty(topGuides)}">
+            <p>Пока нет популярных гайдов</p>
+        </div>
+
+        <ul th:if="${!#lists.isEmpty(topGuides)}">
+            <li th:each="g : ${topGuides}">
+                <a th:href="@{/guides/{id}(id=${g.id})}"
+                   th:text="${g.title}"></a>
+                —
+                <span th:text="${g.category}"></span>
+                —
+                ❤️ <span th:text="${g.likeCount}"></span>
+            </li>
+        </ul>
+
+    </section>
+
+</main>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+
+</body>
+</html>

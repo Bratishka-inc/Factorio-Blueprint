@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ru"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/extras/spring-security6">
+
+<head th:replace="~{fragments/head :: head}"></head>
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<main class="container">
+    <h1>Создание гайда</h1>
+
+    <form th:action="@{/guides/new}"
+          th:object="${guide}"
+          method="post">
+
+        <label>Название:</label>
+        <input type="text" th:field="*{title}" required>
+
+        <label>Категория:</label>
+        <input type="text" th:field="*{category}">
+
+        <label>Описание:</label>
+        <textarea th:field="*{description}" rows="10"></textarea>
+
+        <button type="submit">Создать</button>
+    </form>
+</main>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+
+</body>
+</html>

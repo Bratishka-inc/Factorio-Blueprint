@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ru"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/extras/spring-security6">
+
+<head th:replace="~{fragments/head :: head}"></head>
+
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<main class="container">
+
+    <h1>Список чертежей</h1>
+
+    <!-- Поиск -->
+    <form method="get" action="/blueprints" class="form-search">
+        <input type="text"
+               name="search"
+               placeholder="Поиск по названию..."
+               th:value="${search}">
+        <button type="submit">Искать</button>
+    </form>
+
+    <!-- Добавить чертёж (только залогиненный пользователь) -->
+    <div sec:authorize="isAuthenticated()" class="mt-15">
+        <a href="/blueprints/add" class="btn btn-primary">Добавить чертёж</a>
+    </div>
+
+    <!-- Если список пуст -->
+    <div th:if="${#lists.isEmpty(blueprints)}" class="mt-25">
+        <p>Пока нет ни одного чертежа. Будь первым, кто его добавит!</p>
+    </div>
+
+    <!-- Список -->
+    <div class="grid" th:each="bp : ${blueprints}">
+        <article class="card">
+            <h3 th:text="${bp.name}"></h3>
+
+            <p th:text="${bp.description}"></p>
+
+            <!-- Автор -->
+            <p>
+                <strong>Автор:</strong>
+                <span th:if="${bp.author == null}">не указан</span>
+
+                <a th:if="${bp.author != null}"
+                   th:text="${bp.author.username}"
+                   th:href="@{'/profile?user=' + ${bp.author.id}}">
+                </a>
+            </p>
+
+            <!-- Кнопка открыть -->
+            <a th:href="@{/blueprints/{id}(id=${bp.id})}"
+               class="btn btn-secondary">
+                Открыть
+            </a>
+        </article>
+    </div>
+
+    <!-- Пагинация -->
+    <div th:if="${totalPages > 1}" class="pagination mt-25">
+        <ul>
+            <li th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
+                <a th:href="@{|/blueprints?page=${i}|}"
+                   th:text="${i + 1}">
+                </a>
+            </li>
+        </ul>
+    </div>
+
+</main>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+
+</body>
+</html>

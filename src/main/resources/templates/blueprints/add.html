@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ru"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/extras/spring-security6">
+
+<head th:replace="~{fragments/head :: head}"></head>
+
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<main class="container">
+
+    <h1>Добавить чертёж</h1>
+
+    <form th:action="@{/blueprints/add}"
+          th:object="${addBlueprintDto}"
+          method="post">
+
+        <!-- Название -->
+        <div class="form-group">
+            <label for="name">Название</label>
+            <input type="text"
+                   id="name"
+                   th:field="*{name}"
+                   class="form-control">
+            <p class="error"
+               th:if="${#fields.hasErrors('name')}"
+               th:errors="*{name}"></p>
+        </div>
+
+        <!-- Описание -->
+        <div class="form-group">
+            <label for="description">Описание</label>
+            <textarea id="description"
+                      th:field="*{description}"
+                      class="form-control"></textarea>
+            <p class="error"
+               th:if="${#fields.hasErrors('description')}"
+               th:errors="*{description}"></p>
+        </div>
+
+        <!-- Blueprint string -->
+        <div class="form-group">
+            <label for="blueprintString">Код чертежа</label>
+            <textarea id="blueprintString"
+                      th:field="*{blueprintString}"
+                      class="form-control"></textarea>
+            <p class="error"
+               th:if="${#fields.hasErrors('blueprintString')}"
+               th:errors="*{blueprintString}"></p>
+        </div>
+
+        <!-- Image URL -->
+        <div class="form-group">
+            <label for="imageUrl">URL изображения (необязательно)</label>
+            <input type="text"
+                   id="imageUrl"
+                   th:field="*{imageUrl}"
+                   class="form-control">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Добавить</button>
+
+    </form>
+
+</main>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+
+</body>
+</html>

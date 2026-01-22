@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ru"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/extras/spring-security6">
+
+<head th:replace="~{fragments/head :: head}"></head>
+
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<main class="container">
+
+    <h1>Редактировать чертёж</h1>
+
+    <!-- Форма редактирования -->
+    <form th:action="@{|/blueprints/${blueprint.id}/edit|}"
+          th:object="${blueprint}"
+          method="post">
+
+        <!-- Название -->
+        <div class="form-group">
+            <label for="name"><strong>Название:</strong></label>
+            <input id="name"
+                   type="text"
+                   th:field="*{name}"
+                   class="form-control"
+                   required>
+        </div>
+
+        <!-- Описание -->
+        <div class="form-group mt-15">
+            <label for="description"><strong>Описание:</strong></label>
+            <textarea id="description"
+                      th:field="*{description}"
+                      class="form-control"
+                      rows="4"></textarea>
+        </div>
+
+        <!-- Blueprint-код -->
+        <div class="form-group mt-15">
+            <label for="blueprintString"><strong>Код чертежа:</strong></label>
+            <textarea id="blueprintString"
+                      th:field="*{blueprintString}"
+                      class="form-control"
+                      rows="6"
+                      required></textarea>
+        </div>
+
+        <!-- КНОПКИ -->
+        <div class="actions mt-20">
+            <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+
+            <a th:href="@{|/blueprints/${blueprint.id}|}"
+               class="btn btn-secondary">
+                Отмена
+            </a>
+        </div>
+
+    </form>
+
+</main>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+
+</body>
+</html>

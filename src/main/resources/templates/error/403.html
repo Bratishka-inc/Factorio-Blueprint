@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ru"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/extras/spring-security6">
+
+<head th:replace="~{fragments/head :: head}"></head>
+
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<main class="container">
+
+    <h1>Вам БАН, сударь.</h1>
+
+    <p>
+        Вы часом не обалдели? Ручки тянуть к чужому...
+    </p>
+
+    <a href="/" class="secondary">← Вернуться на главную</a>
+
+</main>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ru"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/extras/spring-security6">
+
+<head th:replace="~{fragments/head :: head}"></head>
+
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<main class="container">
+    <h2>Админ-панель</h2>
+
+    <p>Добро пожаловать в административную панель.</p>
+
+    <p>
+        <a th:href="@{/admin/users}" class="btn btn-primary">
+            Управление пользователями
+        </a>
+    </p>
+</main>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+
+</body>
+</html>
